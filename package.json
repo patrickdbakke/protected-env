@@ -14,5 +14,8 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
     "prettier": "^1.5.3"
+  },
+  "dependencies": {
+    "minimatch": "^3.0.4"
   }
 }

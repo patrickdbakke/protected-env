@@ -12,6 +12,7 @@ Todo: add to npm.
 
 Require this project as the very [first line](https://media1.giphy.com/media/AJP3hFHIJGne0/giphy.gif) in your app.
 
+### Basic
 ```
 const rules = {
 	ENV_VAR_NAME: ['allowed-file.pattern'],
@@ -24,7 +25,25 @@ require('protect-env')(rules)
 /* ... your code ... */
 ```
 
+### Errors
+
 Errors will be thrown if an [unapproved library](https://media0.giphy.com/media/Bc3SkXz1M9mjS/giphy.gif) attempts to access your `process.env` or keys on it. Those libraries will **not** gain access to your protected env vars.
+
+
+### Minimal "Glob" Matching
+
+protect-env uses [minimatch](https://github.com/isaacs/minimatch) for pattern matching. Pass arrays of glob/minimatching patterns for each key. 
+
+### Restoring `process.env`
+
+```
+const restore = require('protect-env')({
+	WHATEVER: ['my-file'],
+})
+process.env.WHATEVER // protected
+restore()
+process.env.WHATEVER // unprotected
+```
 
 ## ⚠️ Caveats
 
@@ -42,11 +61,7 @@ npm run prettier
 
 ## ✅ Todo
 
-1. Glob style file path matching. 
-2. Wildcard var names (`*SECRET*`, `*PASSWORD*`)
-3. NPM
-4. [More giphy](https://media.giphy.com/media/n5oYbKrHYXylq/giphy.gif)
-5. More emoji
+1. NPM
 
 ## ⚖ License
 MIT

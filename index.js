@@ -1,6 +1,8 @@
+const minimatch = require('minimatch');
+
 function InvalidAccessError(scope, key, filename) {
   this.name = 'InvalidAccessError';
-  this.message = fileName + ' tried to access ' + scope + '.' + key;
+  this.message = `${fileName} tried to access ${scope}.${key}`;
   this.stack = new Error().stack;
 }
 InvalidAccessError.prototype = Object.create(Error.prototype);
@@ -8,15 +10,22 @@ InvalidAccessError.prototype.constructor = InvalidAccessError;
 
 module.exports = function(rules) {
   function allowed(fileName, key) {
-    if (!rules[key] || rules[key].indexOf('*') >= 0) {
-      return true;
-    }
-    for (let i = 0; i < rules[key].length; i++) {
-      if (fileName.indexOf(rules[key][i]) >= 0) {
-        return true;
+    const keys = Object.keys(rules);
+
+    for (let i = 0; i < keys.length; i++) {
+      if (minimatch(key, keys[i])) {
+        if (!rules[key] || rules[key].indexOf('*') >= 0) {
+          return true;
+        }
+        for (let j = 0; j < rules[key].length; j++) {
+          if (minimatch(fileName, rules[key][j])) {
+            return true;
+          }
+        }
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   function protect(value, name, key) {
@@ -46,17 +55,25 @@ module.exports = function(rules) {
   }
 
   const protectedEnv = {};
-  Object.keys(process.env).forEach(key => {
+  const originalProcessEnv = process.env;
+  delete process.env;
+
+  Object.keys(originalProcessEnv).forEach(key => {
     Object.defineProperty(protectedEnv, key, {
-      get: protect(process.env[key], 'process.env', key),
-      enumerable: process.env.propertyIsEnumerable(key),
+      get: protect(originalProcessEnv[key], 'process.env', key),
+      set: function() {
+        throw `tried to overwrite process.env.${key}`;
+      },
+      enumerable: originalProcessEnv.propertyIsEnumerable(key),
     });
   });
-  delete process.env;
   Object.defineProperty(process, 'env', {
     get: protect(protectedEnv, 'process', 'env'),
-    set: function() {
-      throw 'tried to overwrite env';
-    },
+    configurable: true,
   });
+
+  return function() {
+    delete process.env;
+    process.env = originalProcessEnv;
+  };
 };
