@@ -8,11 +8,7 @@ InvalidAccessError.prototype.constructor = InvalidAccessError;
 
 module.exports = function(rules) {
   function allowed(fileName, key) {
-    if (
-      !rules[key] ||
-      rules[key].length === 0 ||
-      rules[key].indexOf('*') >= 0
-    ) {
+    if (!rules[key] || rules[key].indexOf('*') >= 0) {
       return true;
     }
     for (let i = 0; i < rules[key].length; i++) {
