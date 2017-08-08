@@ -6,7 +6,10 @@ A naive implementation of protecting your process.env.
 Avoid [malicious packages](https://twitter.com/o_cee/status/892306836199800836) and [hackerz](https://media2.giphy.com/media/TOWeGr70V2R1K/giphy.gif). Restrict `process.env` access to authorized libraries only. 
 
 ## 🚀 Installation
-Todo: add to npm.
+
+```
+npm i protect-env
+```
 
 ## 🐜 Usage
 
@@ -58,10 +61,6 @@ npm run test
 ```
 npm run prettier
 ```
-
-## ✅ Todo
-
-1. NPM
 
 ## ⚖ License
 MIT
