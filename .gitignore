@@ -1,0 +1,13 @@
+**/node_modules/*
+npm-debug.log
+npm-debug.log.*
+**.env
+.DS_Store
+*/**.DS_Store
+coverage/*
+report/*
+.mocha
+*.pem
+*.log
+logs/*
+.tmp
