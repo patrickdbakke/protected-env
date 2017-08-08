@@ -1,9 +1,9 @@
 # 🛡 protect-env
 -----------------------
 
-A naive implemenation of protecting your process.env. 
+A naive implementation of protecting your process.env.
 
-Require this project as the very first project in your app. 
+Require this project as the very first project in your app.
 
 ## 🚀 Installation
 Todo: add to npm.
@@ -21,7 +21,7 @@ require('protect-env')(rules)
 /* ... your code ... */
 ```
 
-Errors will be thrown if an unapproved library attempts to access your `process.env` or keys on it. Those libraries will **not** gain access to your protected env vars. 
+Errors will be thrown if an unapproved library attempts to access your `process.env` or keys on it. Those libraries will **not** gain access to your protected env vars.
 
 ## 📐 Testing
 ```
@@ -37,5 +37,5 @@ npm run prettier
 
 This is a **very** naive implementation - only protecting your `process.env` using [getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get). It does not protect against other ways of accessing your environment variables (like calling external code, file system `require`s, or other more "elegant" methods).
 
-## ⚖ License 
+## ⚖ License
 MIT
